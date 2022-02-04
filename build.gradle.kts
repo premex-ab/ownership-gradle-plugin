@@ -56,7 +56,7 @@ version = androidGitVersion.name().replace("v", "")
 
 gradlePlugin {
     plugins {
-        create("se.premex.ownership") {
+        create("ownership") {
             id = "se.premex.ownership"
             group = "se.premex"
             implementationClass = "se.premex.OwnershipPlugin"
@@ -71,7 +71,7 @@ pluginBundle {
     tags = mutableListOf("gradle", "tooling", "ownership", "premex")
 
     (plugins) {
-        "se.premex.ownership" {
+        "ownership" {
             // id is captured from java-gradle-plugin configuration
             displayName = "Verify ownership files are in place in subproject and have required information"
             description =
