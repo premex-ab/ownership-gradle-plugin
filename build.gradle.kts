@@ -6,6 +6,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
     kotlin("plugin.serialization") version "1.6.10"
     id("com.gladed.androidgitversion") version "0.4.14"
+    id("maven-publish")
 }
 
 androidGitVersion {
@@ -53,6 +54,7 @@ tasks.withType<Test> {
 }
 
 version = androidGitVersion.name().replace("v", "")
+group = "se.premex"
 
 gradlePlugin {
     plugins {
