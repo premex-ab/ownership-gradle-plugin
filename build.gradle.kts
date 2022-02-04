@@ -68,7 +68,7 @@ pluginBundle {
     website = "https://github.com/premex-ab/ownership-gradle-plugin"
     vcsUrl = "https://github.com/premex-ab/ownership-gradle-plugin.git"
     description = "A plugin that verifies that ownership files are created in the projects"
-    tags = mutableListOf("gradle", "tooling", "ownership", "premex")
+    tags = mutableListOf("tooling", "ownership", "premex")
 
     (plugins) {
         "ownership" {
