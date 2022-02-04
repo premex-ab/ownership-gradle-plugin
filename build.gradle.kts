@@ -58,7 +58,6 @@ gradlePlugin {
     plugins {
         create("ownership") {
             id = "se.premex.ownership"
-            group = "se.premex"
             implementationClass = "se.premex.OwnershipPlugin"
         }
     }
