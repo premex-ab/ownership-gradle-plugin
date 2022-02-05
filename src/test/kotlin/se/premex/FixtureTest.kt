@@ -13,7 +13,12 @@ private val fixturesDir = File("src/test/fixtures")
 class FixtureTest {
 
     @ParameterizedTest
-    @ValueSource(strings = ["singlemodule"])
+    @ValueSource(
+        strings = [
+            "singlemodule",
+            "multimodule"
+        ]
+    )
     fun teststuff(input: String) {
         val fixtureDir = File(fixturesDir, input)
 
@@ -26,7 +31,7 @@ class FixtureTest {
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
             .withPluginClasspath()
-            .withArguments("check", "--stacktrace") // , versionProperty)
+            .withArguments("validateOwnership", "--stacktrace") // , versionProperty)
             .forwardOutput()
             .build()
 
@@ -41,7 +46,7 @@ class FixtureTest {
         return GradleRunner.create()
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
-            .withArguments("check", "--stacktrace", "--continue") // , versionProperty)
+            .withArguments("validateOwnership", "--stacktrace", "--continue") // , versionProperty)
             .withPluginClasspath()
             .forwardOutput()
     }
