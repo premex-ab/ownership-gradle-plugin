@@ -8,8 +8,16 @@
       "path": "OWNERSHIP.toml",
       "configuration": {
         "owner": {
-          "group": "secretGroup",
-          "user": "secretUser"
+          "user": "projectRootOwner"
+        },
+        "version": 1
+      }
+    },
+    {
+      "path": "src/OWNERSHIP.toml",
+      "configuration": {
+        "owner": {
+          "user": "srcOwner"
         },
         "version": 1
       }

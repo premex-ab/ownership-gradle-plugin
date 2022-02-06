@@ -45,6 +45,6 @@ use cases.
 
 - [x] Support for verifying codeownership files is in place
 - [ ] Better rules for validating content in ownership files
-- [ ] Support for having codeownership files anywhere in the code and not only in a projects root
+- [x] Support for having codeownership files anywhere in the code and not only in a projects root
 - [ ] Generate github & bitbucket codeownership files based on the toml files
 - [ ] Generate html reports of code ownerships and code health 

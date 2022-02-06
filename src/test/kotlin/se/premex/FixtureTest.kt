@@ -1,6 +1,8 @@
 package se.premex
 
 import com.google.common.truth.Truth.assertThat
+import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
+import net.javacrumbs.jsonunit.core.Option
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,7 +18,8 @@ class FixtureTest {
     @ValueSource(
         strings = [
             "singlemodule",
-            "multimodule"
+            "multimodule",
+            "singlemodule_multi_ownerships",
         ]
     )
     fun teststuff(input: String) {
@@ -46,7 +49,7 @@ class FixtureTest {
         return GradleRunner.create()
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
-            .withArguments("validateOwnership", "--stacktrace", "--continue") // , versionProperty)
+            .withArguments("clean", "validateOwnership", "--stacktrace", "--continue") // , versionProperty)
             .withPluginClasspath()
             .forwardOutput()
     }
@@ -64,7 +67,10 @@ class FixtureTest {
             if (!actualFile.exists()) {
                 throw AssertionError("Expected $actualFile but does not exist")
             }
-            assertThat(actualFile.readText()).isEqualTo(expectedFile.readText())
+
+            assertThatJson(actualFile.readText())
+                .`when`(Option.IGNORING_ARRAY_ORDER)
+                .isEqualTo(expectedFile.readText())
         }
     }
 }
