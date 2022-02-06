@@ -15,3 +15,7 @@ abstract class CheckTask : DefaultTask() {
 
 // Create a task using the task type
 tasks.register<CheckTask>("check")
+
+task<Delete>("clean") {
+    delete(rootProject.buildDir)
+}

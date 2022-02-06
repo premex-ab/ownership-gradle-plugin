@@ -1,1 +1,18 @@
-{"projectPath":":two","ownershipVerificationEnabled":true,"valid":true,"errors":[],"configuration":{"owner":{"group":"secretGroupTwo","user":"secretUserTwo"},"version":1}}
+{
+  "projectPath": ":two",
+  "ownershipVerificationEnabled": true,
+  "valid": true,
+  "errors": [],
+  "configurations": [
+    {
+      "path": "two/OWNERSHIP.toml",
+      "configuration": {
+        "owner": {
+          "group": "secretGroupTwo",
+          "user": "secretUserTwo"
+        },
+        "version": 1
+      }
+    }
+  ]
+}

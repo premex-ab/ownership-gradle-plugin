@@ -1,1 +1,18 @@
-{"projectPath":":","ownershipVerificationEnabled":true,"valid":true,"errors":[],"configuration":{"owner":{"group":"secretGroupRoot","user":"secretUserRoot"},"version":1}}
+{
+  "projectPath": ":",
+  "ownershipVerificationEnabled": true,
+  "valid": true,
+  "errors": [],
+  "configurations": [
+    {
+      "path": "OWNERSHIP.toml",
+      "configuration": {
+        "owner": {
+          "group": "secretGroupRoot",
+          "user": "secretUserRoot"
+        },
+        "version": 1
+      }
+    }
+  ]
+}
