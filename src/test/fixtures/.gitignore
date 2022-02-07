@@ -1,5 +1,9 @@
 gradle
 .gradle
+.github
+.bitbucket
 
-# Track build/ directories when they're inside expected/
+# Track when they're inside expected/
 !*/expected/**/build/
+!*/expected/.github
+!*/expected/.bitbucket

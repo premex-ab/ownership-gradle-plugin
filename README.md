@@ -9,6 +9,15 @@ plugins {
     id("se.premex.ownership") version "0.0.1"
 }
 ```
+##### Configure it
+
+```kotlin
+ownership {
+    validateOwnership = true
+    generateGithubOwners = true
+    generateBitbucketOwners = true
+}
+```
 
 ##### Verify ownership files is in place:
 
@@ -46,5 +55,5 @@ use cases.
 - [x] Support for verifying codeownership files is in place
 - [ ] Better rules for validating content in ownership files
 - [x] Support for having codeownership files anywhere in the code and not only in a projects root
-- [ ] Generate github & bitbucket codeownership files based on the toml files
+- [x] Generate GitHub & Bitbucket codeownership files based on the toml files
 - [ ] Generate html reports of code ownerships and code health 

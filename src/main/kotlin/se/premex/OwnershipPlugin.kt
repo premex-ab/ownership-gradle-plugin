@@ -20,6 +20,18 @@ class OwnershipPlugin : Plugin<Project> {
             ) { task ->
                 task.ownershipExtension = ownershipExtension
             }
+
+            if (target == target.rootProject) {
+                target.tasks.register(
+                    "generateOwnership",
+                    GenerateOwnershipTask::class.java
+                ) { task ->
+                    task.ownershipExtension = ownershipExtension
+                }.configure {
+                    it.dependsOn(validateOwnershipTask)
+                }
+            }
+
             if (target.tasks.findByName("check") != null) {
                 target.tasks.named("check").configure {
                     it.dependsOn(validateOwnershipTask)

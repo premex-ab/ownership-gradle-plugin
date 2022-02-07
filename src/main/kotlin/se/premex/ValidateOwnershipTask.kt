@@ -29,7 +29,10 @@ open class ValidateOwnershipTask : DefaultTask() {
             .fileTree(
                 project.projectDir
             ) { files: ConfigurableFileTree ->
-                val filter = files.include("**/OWNERSHIP.toml").exclude("build/**")
+                val filter = files.include("**/OWNERSHIP.toml")
+                    .exclude("build/**")
+                    .exclude("**/.github/**")
+                    .exclude("**/.bitbucket/**")
                 val projectRootDir = project.rootDir
                 project.subprojects.forEach {
                     val relativeProjectDir = File(it.projectDir.path).relativeTo(projectRootDir)
@@ -66,7 +69,7 @@ open class ValidateOwnershipTask : DefaultTask() {
 
             val errors = mutableListOf<String>()
             val configurations = mutableListOf<Configuration>()
-            val validationResults = ownershipFiles.map { ownershipFile ->
+            val validationResults = ownershipFiles.sorted().map { ownershipFile ->
                 val path = ownershipFile.relativeTo(project.rootDir).path
                 val tomlParseResult: TomlParseResult = Toml.parse(ownershipFile.readText())
 
