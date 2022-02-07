@@ -33,7 +33,7 @@ class FailingFixtureTest {
         return GradleRunner.create()
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
-            .withArguments("clean", "validateOwnership", "--stacktrace", "--continue") // , versionProperty)
+            .withArguments("clean", "validateOwnership", "--stacktrace", "--continue")
             .withPluginClasspath()
             .forwardOutput()
     }

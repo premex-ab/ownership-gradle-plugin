@@ -5,4 +5,6 @@ plugins {
 
 ownership {
     validateOwnership = true
+    generateGithubOwners = true
+    generateBitbucketOwners = true
 }

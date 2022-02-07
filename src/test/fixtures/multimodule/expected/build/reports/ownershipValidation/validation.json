@@ -7,6 +7,18 @@
     {
       "path": "OWNERSHIP.toml",
       "configuration": {
+        "custom": {
+          "owners": [
+            [
+              "*.js",
+              "@js-owner"
+            ],
+            [
+              "*.go",
+              "docs@example.com"
+            ]
+          ]
+        },
         "owner": {
           "group": "secretGroupRoot",
           "user": "secretUserRoot"

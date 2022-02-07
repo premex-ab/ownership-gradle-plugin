@@ -2,7 +2,6 @@ package se.premex
 
 import com.google.common.truth.Truth.assertThat
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
-import net.javacrumbs.jsonunit.core.Option
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,13 +33,17 @@ class FixtureTest {
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
             .withPluginClasspath()
-            .withArguments("validateOwnership", "--stacktrace") // , versionProperty)
+            .withArguments("validateOwnership", "generateOwnership", "--stacktrace")
             .forwardOutput()
             .build()
 
-        secondRun.tasks.filter { it.path.contains(":validateOwnership") }.forEach {
-            assertEquals(UP_TO_DATE, it.outcome, "Second invocation of ${it.path}")
+        secondRun.tasks.filter {
+            it.path.contains(":validateOwnership") ||
+                it.path.contains(":generateOwnership")
         }
+            .forEach {
+                assertEquals(UP_TO_DATE, it.outcome, "Second invocation of ${it.path}")
+            }
     }
 
     private fun createRunner(fixtureDir: File): GradleRunner {
@@ -49,7 +52,13 @@ class FixtureTest {
         return GradleRunner.create()
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
-            .withArguments("clean", "validateOwnership", "--stacktrace", "--continue") // , versionProperty)
+            .withArguments(
+                "clean",
+                "validateOwnership",
+                "generateOwnership",
+                "--stacktrace",
+                "--continue"
+            )
             .withPluginClasspath()
             .forwardOutput()
     }
@@ -67,10 +76,12 @@ class FixtureTest {
             if (!actualFile.exists()) {
                 throw AssertionError("Expected $actualFile but does not exist")
             }
-
-            assertThatJson(actualFile.readText())
-                .`when`(Option.IGNORING_ARRAY_ORDER)
-                .isEqualTo(expectedFile.readText())
+            if (actualFile.extension == "json") {
+                assertThatJson(actualFile.readText())
+                    .isEqualTo(expectedFile.readText())
+            } else {
+                assertThat(actualFile.readText()).isEqualTo(expectedFile.readText())
+            }
         }
     }
 }

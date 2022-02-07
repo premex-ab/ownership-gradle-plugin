@@ -3,3 +3,6 @@ version = 1
 [owner]
 user = "secretUserRoot"
 group = "secretGroupRoot"
+
+[custom]
+owners = [ ["*.js", "@js-owner"], ["*.go", "docs@example.com"] ]
