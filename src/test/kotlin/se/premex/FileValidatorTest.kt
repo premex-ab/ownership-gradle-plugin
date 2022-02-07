@@ -19,7 +19,7 @@ class FileValidatorTest {
         assertThat(
             FileValidator().validateOwnership(validator.defaultChecks, Toml.parse(toml, TOML_VERSION))
         ).isEqualTo(
-            ValidationResult(validator.defaultChecks.validationRules.map { it to true })
+            OwnershipValidationResult(validator.defaultChecks.validationRules.map { it to true })
         )
     }
 
@@ -35,7 +35,7 @@ class FileValidatorTest {
         assertThat(
             FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
         ).isEqualTo(
-            ValidationResult(rules.validationRules.map { it to true })
+            OwnershipValidationResult(rules.validationRules.map { it to true })
         )
     }
 
@@ -47,7 +47,7 @@ class FileValidatorTest {
         assertThat(
             FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
         ).isEqualTo(
-            ValidationResult(rules.validationRules.map { it to false })
+            OwnershipValidationResult(rules.validationRules.map { it to false })
         )
     }
 
@@ -62,7 +62,7 @@ class FileValidatorTest {
         assertThat(
             FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
         ).isEqualTo(
-            ValidationResult(rules.validationRules.map { it to false })
+            OwnershipValidationResult(rules.validationRules.map { it to false })
         )
     }
 
@@ -78,7 +78,7 @@ class FileValidatorTest {
         assertThat(
             FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
         ).isEqualTo(
-            ValidationResult(rules.validationRules.map { it to true })
+            OwnershipValidationResult(rules.validationRules.map { it to true })
         )
     }
 
@@ -90,7 +90,7 @@ class FileValidatorTest {
         assertThat(
             FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
         ).isEqualTo(
-            ValidationResult(rules.validationRules.map { it to false })
+            OwnershipValidationResult(rules.validationRules.map { it to false })
         )
     }
 }

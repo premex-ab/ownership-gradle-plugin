@@ -30,12 +30,14 @@ kotlin {
     }
 }
 
+
 repositories {
+    maven { url = uri("https://repo.gradle.org/gradle/libs-releases") }
     mavenCentral()
 }
 
 dependencies {
-    implementation(gradleApi())
+    implementation("org.gradle:gradle-tooling-api:7.3.3")
     implementation(kotlin("stdlib"))
     implementation("org.tomlj:tomlj:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
@@ -78,14 +80,13 @@ pluginBundle {
 
     (plugins) {
         "ownership" {
-            // id is captured from java-gradle-plugin configuration
             displayName = "Verify ownership files are in place in subproject and have required information"
             description =
                 """Check for existance of OWNERSHIP.toml in subprojects and verify that it contains ownership information. 
                     |
                     |Will soon also check for description and have additional tasks to generate code owner files that are understood by source control systems. 
                     |
-                    |Attaches to the check 
+                    |Attaches to the check task 
             """.trimMargin()
         }
     }

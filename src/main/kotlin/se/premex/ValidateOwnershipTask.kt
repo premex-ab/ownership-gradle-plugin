@@ -6,8 +6,10 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.api.file.FileCollection
+import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
@@ -33,7 +35,7 @@ open class ValidateOwnershipTask : DefaultTask() {
             }
 
     @OutputFile
-    val resultFile = project.file("build/reports/ownershipValidation/validation.json")
+    val resultFile: File = project.file("build/reports/ownershipValidation/validation.json")
 
     @Nested
     lateinit var ownershipExtension: OwnershipExtension
@@ -61,17 +63,24 @@ open class ValidateOwnershipTask : DefaultTask() {
 
             val errors = mutableListOf<String>()
             val configurations = mutableListOf<Configuration>()
-
-            ownershipFiles.forEach { ownershipFile ->
+            val validationResults = ownershipFiles.map { ownershipFile ->
                 val path = ownershipFile.relativeTo(project.rootDir).path
-                val result: TomlParseResult = Toml.parse(ownershipFile.readText())
+                val tomlParseResult: TomlParseResult = Toml.parse(ownershipFile.readText())
 
-                val configurationJson = Json.decodeFromString<JsonObject>(result.toJson())
+                val configurationJson = Json.decodeFromString<JsonObject>(tomlParseResult.toJson())
 
-                errors.addAll(result.errors().map { it.toString() })
-                configurations.add(Configuration(path, configurationJson))
-                val validator = FileValidator()
-                validator.validateOwnership(ownershipFile)
+                val ownershipValidationResult: OwnershipValidationResult? = if (!tomlParseResult.hasErrors()) {
+                    configurations.add(Configuration(path, configurationJson))
+                    val validator = FileValidator()
+                    validator.validateOwnership(ownershipFile)
+                } else {
+                    null
+                }
+
+                ValidationResult(
+                    tomlParseResult = tomlParseResult,
+                    ownershipValidationResult = ownershipValidationResult
+                )
             }
 
             val json = jsonParser.encodeToString(
@@ -84,9 +93,22 @@ open class ValidateOwnershipTask : DefaultTask() {
                 )
             )
             resultFile.writeText(json)
-        }
 
-        ownershipExtension
+            val tomlParseFails = validationResults.filter { it.tomlParseResult.hasErrors() }
+            if (tomlParseFails.isNotEmpty()) {
+                tomlParseFails.forEach { logger.log(LogLevel.LIFECYCLE, it.tomlParseResult.errors().toString()) }
+                throw GradleException("Failure parsing toml file")
+            }
+
+            val failedRules = validationResults
+                .mapNotNull { it.ownershipValidationResult?.results }
+                .flatMap { it -> it.filter { !it.second } }
+
+            if (failedRules.isNotEmpty()) {
+                failedRules.forEach { logger.log(LogLevel.LIFECYCLE, it.first.toString()) }
+                throw GradleException("Failed rule")
+            }
+        }
     }
 }
 

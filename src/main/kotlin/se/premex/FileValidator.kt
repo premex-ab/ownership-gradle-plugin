@@ -11,8 +11,11 @@ sealed class Rule {
 }
 
 data class ValidationRules(val validationRules: List<Rule>)
-
-data class ValidationResult(val results: List<Pair<Rule, Boolean>>)
+data class OwnershipValidationResult(val results: List<Pair<Rule, Boolean>>)
+data class ValidationResult(
+    val tomlParseResult: TomlParseResult,
+    val ownershipValidationResult: OwnershipValidationResult?
+)
 
 val TOML_VERSION = TomlVersion.V0_5_0
 val VALID_VERSIONS = arrayOf(1L)
@@ -26,17 +29,17 @@ class FileValidator {
         )
     )
 
-    internal fun validateOwnership(tomlFile: File): ValidationResult =
+    internal fun validateOwnership(tomlFile: File): OwnershipValidationResult =
         validateOwnership(defaultChecks, Toml.parse(tomlFile.reader(), TOML_VERSION))
 
     internal fun validateOwnership(
         validationRules: ValidationRules,
         tomlParseResult: TomlParseResult
-    ): ValidationResult {
+    ): OwnershipValidationResult {
         val results = validationRules.validationRules.map {
             validateRule(tomlParseResult, it)
         }
-        return ValidationResult(results)
+        return OwnershipValidationResult(results)
     }
 
     private fun validateRule(tomlParseResult: TomlParseResult, rule: Rule): Pair<Rule, Boolean> = when (rule) {
