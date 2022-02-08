@@ -34,7 +34,7 @@ class FixtureTest {
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
             .withPluginClasspath()
-            .withArguments("check", "--stacktrace") // , versionProperty)
+            .withArguments("validateOwnership", "--stacktrace") // , versionProperty)
             .forwardOutput()
             .build()
 
@@ -49,7 +49,7 @@ class FixtureTest {
         return GradleRunner.create()
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
-            .withArguments("clean", "check", "--stacktrace", "--continue") // , versionProperty)
+            .withArguments("clean", "validateOwnership", "--stacktrace", "--continue") // , versionProperty)
             .withPluginClasspath()
             .forwardOutput()
     }
