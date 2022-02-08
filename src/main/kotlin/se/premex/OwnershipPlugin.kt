@@ -20,8 +20,10 @@ class OwnershipPlugin : Plugin<Project> {
             ) { task ->
                 task.ownershipExtension = ownershipExtension
             }
-            target.tasks.named("check").configure {
-                it.dependsOn(validateOwnershipTask)
+            if (target.tasks.findByName("check") != null) {
+                target.tasks.named("check").configure {
+                    it.dependsOn(validateOwnershipTask)
+                }
             }
         }
     }
