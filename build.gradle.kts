@@ -82,11 +82,11 @@ pluginBundle {
         "ownership" {
             displayName = "Verify ownership files are in place in subproject and have required information"
             description =
-                """Check for existance of OWNERSHIP.toml in subprojects and verify that it contains ownership information. 
+                """Check for existence of OWNERSHIP.toml in subprojects and verify that it contains ownership information. It will validate the syntax in the file against the toml specification
                     |
                     |Will soon also check for description and have additional tasks to generate code owner files that are understood by source control systems. 
                     |
-                    |Attaches to the check task 
+                    |Attaches to the check task to perform validation on OWNERSHIP.toml files. 
             """.trimMargin()
         }
     }
