@@ -4,8 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import net.javacrumbs.jsonunit.core.Option
 import org.gradle.testkit.runner.GradleRunner
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+import org.junit.jupiter.params.provider.CsvSource
 import java.io.File
 
 private val fixturesDir = File("src/test/fixtures")
@@ -13,17 +14,16 @@ private val fixturesDir = File("src/test/fixtures")
 class FailingFixtureTest {
 
     @ParameterizedTest
-    @ValueSource(
-        strings = [
-            "singlemodule_fail",
-            "tomlparse_fail",
-        ]
+    @CsvSource(
+        "singlemodule_fail,$FAILED_RULE_EXCEPTION_MESSAGE",
+        "tomlparse_fail,$FAILED_PARSING_TOML_FILE_MESSAGE"
     )
-    fun teststuff(input: String) {
+    fun testFailingFixtures(input: String, expectedErrorMessage: String) {
         val fixtureDir = File(fixturesDir, input)
 
-        createRunner(fixtureDir).buildAndFail()
+        val result = createRunner(fixtureDir).buildAndFail()
 
+        assertTrue(result.output.contains(expectedErrorMessage))
         assertExpectedFiles(fixtureDir)
     }
 

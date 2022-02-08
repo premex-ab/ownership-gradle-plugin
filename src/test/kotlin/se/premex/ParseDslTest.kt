@@ -25,6 +25,7 @@ internal class ParseDslTest {
 
         buildFile.writeText(
             """
+            apply plugin: "java"
             apply plugin: "se.premex.ownership"
 
             ownership {

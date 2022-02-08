@@ -18,6 +18,9 @@ import org.tomlj.Toml
 import org.tomlj.TomlParseResult
 import java.io.File
 
+const val FAILED_RULE_EXCEPTION_MESSAGE = "Error occurred when validating rules for OWNERSHIP.toml file"
+const val FAILED_PARSING_TOML_FILE_MESSAGE = "Failure parsing OWNERSHIP.toml file"
+
 open class ValidateOwnershipTask : DefaultTask() {
 
     @InputFiles
@@ -97,7 +100,7 @@ open class ValidateOwnershipTask : DefaultTask() {
             val tomlParseFails = validationResults.filter { it.tomlParseResult.hasErrors() }
             if (tomlParseFails.isNotEmpty()) {
                 tomlParseFails.forEach { logger.log(LogLevel.LIFECYCLE, it.tomlParseResult.errors().toString()) }
-                throw GradleException("Failure parsing toml file")
+                throw GradleException(FAILED_PARSING_TOML_FILE_MESSAGE)
             }
 
             val failedRules = validationResults
@@ -106,7 +109,7 @@ open class ValidateOwnershipTask : DefaultTask() {
 
             if (failedRules.isNotEmpty()) {
                 failedRules.forEach { logger.log(LogLevel.LIFECYCLE, it.first.toString()) }
-                throw GradleException("Failed rule")
+                throw GradleException(FAILED_RULE_EXCEPTION_MESSAGE)
             }
         }
     }

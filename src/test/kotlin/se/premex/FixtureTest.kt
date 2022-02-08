@@ -22,7 +22,7 @@ class FixtureTest {
             "singlemodule_multi_ownerships",
         ]
     )
-    fun teststuff(input: String) {
+    fun testFixtures(input: String) {
         val fixtureDir = File(fixturesDir, input)
 
         createRunner(fixtureDir).build()
@@ -34,7 +34,7 @@ class FixtureTest {
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
             .withPluginClasspath()
-            .withArguments("validateOwnership", "--stacktrace") // , versionProperty)
+            .withArguments("check", "--stacktrace") // , versionProperty)
             .forwardOutput()
             .build()
 
@@ -49,7 +49,7 @@ class FixtureTest {
         return GradleRunner.create()
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
-            .withArguments("clean", "validateOwnership", "--stacktrace", "--continue") // , versionProperty)
+            .withArguments("clean", "check", "--stacktrace", "--continue") // , versionProperty)
             .withPluginClasspath()
             .forwardOutput()
     }
