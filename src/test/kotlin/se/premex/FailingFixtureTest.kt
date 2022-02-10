@@ -16,7 +16,8 @@ class FailingFixtureTest {
     @ParameterizedTest
     @CsvSource(
         "singlemodule_fail,$FAILED_RULE_EXCEPTION_MESSAGE",
-        "tomlparse_fail,$FAILED_PARSING_TOML_FILE_MESSAGE"
+        "tomlparse_fail,$FAILED_PARSING_TOML_FILE_MESSAGE",
+        "singlemodulewithoutowner_fail,$MISSING_TOML_FILE_MESSAGE",
     )
     fun testFailingFixtures(input: String, expectedErrorMessage: String) {
         val fixtureDir = File(fixturesDir, input)
