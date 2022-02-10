@@ -6,7 +6,7 @@ A gradle plugin that will verify ownership files are in place in projects and ha
 
 ```kotlin
 plugins {
-    id("se.premex.ownership") version "0.0.1"
+    id("se.premex.ownership") version "LATEST_VERSION"
 }
 ```
 ##### Configure it
