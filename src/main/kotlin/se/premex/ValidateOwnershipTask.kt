@@ -20,6 +20,7 @@ import java.io.File
 
 const val FAILED_RULE_EXCEPTION_MESSAGE = "Error occurred when validating rules for OWNERSHIP.toml file"
 const val FAILED_PARSING_TOML_FILE_MESSAGE = "Failure parsing OWNERSHIP.toml file"
+const val MISSING_TOML_FILE_MESSAGE = "Missing codeownership file from module"
 
 open class ValidateOwnershipTask : DefaultTask() {
 
@@ -40,6 +41,9 @@ open class ValidateOwnershipTask : DefaultTask() {
                 }
             }
 
+    @InputFiles
+    val moduleOwnershipFile = project.rootProject.file("OWNERSHIP.toml")
+
     @OutputFile
     val resultFile: File = project.file("build/reports/ownershipValidation/validation.json")
 
@@ -47,6 +51,7 @@ open class ValidateOwnershipTask : DefaultTask() {
     lateinit var ownershipExtension: OwnershipExtension
 
     @TaskAction
+    @Suppress("ThrowsCount", "LongMethod")
     fun validationTask() {
         if (!resultFile.exists()) {
             resultFile.createNewFile()
@@ -69,6 +74,21 @@ open class ValidateOwnershipTask : DefaultTask() {
 
             val errors = mutableListOf<String>()
             val configurations = mutableListOf<Configuration>()
+
+            if (!moduleOwnershipFile.exists()) {
+                if (ownershipExtension.generateMissingOwnershipFiles) {
+                    moduleOwnershipFile.createNewFile()
+                    moduleOwnershipFile.writeText(
+                        "version = 1\n" +
+                            "\n" +
+                            "[owner]\n" +
+                            "user = \"" + ownershipExtension.defaultOwnerForMissingOwnershipFiles + "\""
+                    )
+                } else {
+                    throw GradleException(MISSING_TOML_FILE_MESSAGE + " " + moduleOwnershipFile.path)
+                }
+            }
+
             val validationResults = ownershipFiles.sorted().map { ownershipFile ->
                 val path = ownershipFile.relativeTo(project.rootDir).path
                 val tomlParseResult: TomlParseResult = Toml.parse(ownershipFile.readText())
