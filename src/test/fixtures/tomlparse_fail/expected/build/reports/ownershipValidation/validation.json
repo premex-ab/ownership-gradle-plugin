@@ -1,7 +1,11 @@
 {
   "projectPath": ":",
   "ownershipVerificationEnabled": true,
-  "valid": true,
-  "errors": [],
-  "configurations": []
+  "valid": false,
+  "errors": ["Failure parsing OWNERSHIP.toml file"],
+  "configurations": [
+    {
+      "path": "OWNERSHIP.toml"
+    }
+  ]
 }

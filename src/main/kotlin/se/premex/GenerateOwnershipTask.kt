@@ -7,9 +7,7 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
-import org.tomlj.Toml
-import org.tomlj.TomlArray
-import org.tomlj.TomlParseResult
+import se.premex.toml.OwnershipFileResult
 import java.io.File
 
 open class GenerateOwnershipTask : DefaultTask() {
@@ -45,18 +43,18 @@ open class GenerateOwnershipTask : DefaultTask() {
             if (path == "") {
                 path = "*"
             }
-            val result: TomlParseResult = Toml.parse(ownershipFile.readText())
 
-            appendLine(path + "\t" + result.getString("owner.user"))
+            val parsedOwnershipFile: OwnershipFileResult = TomlParser.parseFile(ownershipFile)
 
-            val owners = result.getArrayOrEmpty("custom.owners")
-            if (owners.size() > 0) {
+            appendLine(path + "\t" + parsedOwnershipFile.ownershipFile?.owner?.user!!)
+
+            val owners: List<List<String>> = parsedOwnershipFile.ownershipFile.custom?.owners ?: listOf()
+            if (owners.isNotEmpty()) {
                 appendComment("Custom configurations")
             }
-            for (i in 0 until owners.size()) {
-                val get: TomlArray = owners.getArray(i)
-                val key = get.getString(0)
-                val value = get.getString(1)
+            owners.forEach {
+                val key = it[0]
+                val value = it[1]
                 appendLine(key + "\t" + value)
             }
         }

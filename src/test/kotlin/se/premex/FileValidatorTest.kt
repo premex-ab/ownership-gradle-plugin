@@ -2,7 +2,6 @@ package se.premex
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import org.tomlj.Toml
 
 class FileValidatorTest {
 
@@ -14,10 +13,11 @@ class FileValidatorTest {
                 version = 1
                 
                 [owner]
+                user = "abc"
             """.trimIndent()
 
         assertThat(
-            FileValidator().validateOwnership(validator.defaultChecks, Toml.parse(toml, TOML_VERSION))
+            FileValidator().validateOwnership(validator.defaultChecks, TomlParser.parseString(toml))
         ).isEqualTo(
             OwnershipValidationResult(validator.defaultChecks.validationRules.map { it to true })
         )
@@ -33,7 +33,7 @@ class FileValidatorTest {
             """.trimIndent()
 
         assertThat(
-            FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
+            FileValidator().validateOwnership(rules, TomlParser.parseString(toml))
         ).isEqualTo(
             OwnershipValidationResult(rules.validationRules.map { it to true })
         )
@@ -45,7 +45,7 @@ class FileValidatorTest {
         val toml = ""
 
         assertThat(
-            FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
+            FileValidator().validateOwnership(rules, TomlParser.parseString(toml))
         ).isEqualTo(
             OwnershipValidationResult(rules.validationRules.map { it to false })
         )
@@ -60,7 +60,7 @@ class FileValidatorTest {
             """.trimIndent()
 
         assertThat(
-            FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
+            FileValidator().validateOwnership(rules, TomlParser.parseString(toml))
         ).isEqualTo(
             OwnershipValidationResult(rules.validationRules.map { it to false })
         )
@@ -68,15 +68,17 @@ class FileValidatorTest {
 
     @Test
     fun `dotted key exists successful`() {
-        val rules = ValidationRules(listOf(Rule.DottedKeyExists(property = "owner")))
+        val rules = ValidationRules(listOf(Rule.OwnerExists))
 
         val toml =
             """
+                version = 1
                 [owner]
+                user = "abc"
             """.trimIndent()
 
         assertThat(
-            FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
+            FileValidator().validateOwnership(rules, TomlParser.parseString(toml))
         ).isEqualTo(
             OwnershipValidationResult(rules.validationRules.map { it to true })
         )
@@ -84,11 +86,11 @@ class FileValidatorTest {
 
     @Test
     fun `dotted key exists unsuccessful`() {
-        val rules = ValidationRules(listOf(Rule.DottedKeyExists(property = "owner")))
+        val rules = ValidationRules(listOf(Rule.OwnerExists))
 
         val toml = ""
         assertThat(
-            FileValidator().validateOwnership(rules, Toml.parse(toml, TOML_VERSION))
+            FileValidator().validateOwnership(rules, TomlParser.parseString(toml))
         ).isEqualTo(
             OwnershipValidationResult(rules.validationRules.map { it to false })
         )

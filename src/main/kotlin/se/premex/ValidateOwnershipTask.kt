@@ -1,10 +1,8 @@
 package se.premex
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileTree
@@ -14,8 +12,7 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
-import org.tomlj.Toml
-import org.tomlj.TomlParseResult
+import se.premex.toml.OwnershipFile
 import java.io.File
 
 const val FAILED_RULE_EXCEPTION_MESSAGE = "Error occurred when validating rules for OWNERSHIP.toml file"
@@ -57,7 +54,10 @@ open class ValidateOwnershipTask : DefaultTask() {
             resultFile.createNewFile()
         }
 
-        val jsonParser = Json { encodeDefaults = true }
+        val jsonParser = Json {
+            encodeDefaults = true
+            explicitNulls = false
+        }
 
         if (!ownershipExtension.validateOwnership) {
             val json = jsonParser.encodeToString(
@@ -91,20 +91,20 @@ open class ValidateOwnershipTask : DefaultTask() {
 
             val validationResults = ownershipFiles.sorted().map { ownershipFile ->
                 val path = ownershipFile.relativeTo(project.rootDir).path
-                val tomlParseResult: TomlParseResult = Toml.parse(ownershipFile.readText())
 
-                val configurationJson = Json.decodeFromString<JsonObject>(tomlParseResult.toJson())
+                val parsedOwnershipFile = TomlParser.parseFile(ownershipFile)
 
-                val ownershipValidationResult: OwnershipValidationResult? = if (!tomlParseResult.hasErrors()) {
-                    configurations.add(Configuration(path, configurationJson))
-                    val validator = FileValidator()
-                    validator.validateOwnership(ownershipFile)
-                } else {
-                    null
+                if (parsedOwnershipFile.exception != null) {
+                    errors.add(parsedOwnershipFile.exception.message ?: "unknown error")
                 }
 
+                configurations.add(Configuration(path, parsedOwnershipFile.ownershipFile))
+                val validator = FileValidator()
+                val ownershipValidationResult: OwnershipValidationResult = validator.validateOwnership(ownershipFile)
+
                 ValidationResult(
-                    tomlParseResult = tomlParseResult,
+                    tomlParseResult = parsedOwnershipFile,
+                    hasError = parsedOwnershipFile.exception != null,
                     ownershipValidationResult = ownershipValidationResult
                 )
             }
@@ -120,9 +120,11 @@ open class ValidateOwnershipTask : DefaultTask() {
             )
             resultFile.writeText(json)
 
-            val tomlParseFails = validationResults.filter { it.tomlParseResult.hasErrors() }
+            val tomlParseFails = validationResults.filter { it.hasError }
             if (tomlParseFails.isNotEmpty()) {
-                tomlParseFails.forEach { logger.log(LogLevel.LIFECYCLE, it.tomlParseResult.errors().toString()) }
+                tomlParseFails.forEach {
+                    logger.log(LogLevel.LIFECYCLE, it.tomlParseResult.exception?.message ?: "unknown error")
+                }
                 throw GradleException(FAILED_PARSING_TOML_FILE_MESSAGE)
             }
 
@@ -150,5 +152,5 @@ data class ValidationResultData(
 @Serializable
 data class Configuration(
     val path: String,
-    val configuration: JsonObject,
+    val configuration: OwnershipFile?,
 )
