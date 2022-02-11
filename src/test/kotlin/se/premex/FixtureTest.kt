@@ -33,13 +33,13 @@ class FixtureTest {
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
             .withPluginClasspath()
-            .withArguments("validateOwnership", "generateOwnership", "--stacktrace")
+            .withArguments("validateOwnership", "generateModuleOwnership", "generateOwnership", "--stacktrace")
             .forwardOutput()
             .build()
 
         secondRun.tasks.filter {
             it.path.contains(":validateOwnership") ||
-                it.path.contains(":generateOwnership")
+                    it.path.contains(":generateOwnership")
         }
             .forEach {
                 assertEquals(UP_TO_DATE, it.outcome, "Second invocation of ${it.path}")
@@ -55,7 +55,9 @@ class FixtureTest {
             .withArguments(
                 "clean",
                 "validateOwnership",
+                "generateModuleOwnership",
                 "generateOwnership",
+                "validateVcsOwnershipFiles",
                 "--stacktrace",
                 "--continue"
             )

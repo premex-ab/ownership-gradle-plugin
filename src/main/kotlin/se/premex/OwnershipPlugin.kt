@@ -21,14 +21,43 @@ class OwnershipPlugin : Plugin<Project> {
                 task.ownershipExtension = ownershipExtension
             }
 
+            val genModuleTask = target.tasks.register(
+                "generateModuleOwnership",
+                GenerateModuleOwnershipTask::class.java
+            ) { task ->
+                task.ownershipExtension = ownershipExtension
+            }
+            genModuleTask.configure {
+                it.dependsOn(validateOwnershipTask)
+            }
+
             if (target == target.rootProject) {
-                target.tasks.register(
+                val generateOwnership = target.tasks.register(
                     "generateOwnership",
                     GenerateOwnershipTask::class.java
                 ) { task ->
                     task.ownershipExtension = ownershipExtension
-                }.configure {
-                    it.dependsOn(validateOwnershipTask)
+                }
+                generateOwnership.configure { rootGenerateOwnershipTask ->
+                    rootGenerateOwnershipTask.dependsOn(genModuleTask)
+                    target.rootProject.subprojects.forEach { project ->
+                        if (project.tasks.findByName("generateModuleOwnership") != null) {
+                            project.tasks.named("generateModuleOwnership")
+                                .configure { project_generateModuleOwnership ->
+                                    rootGenerateOwnershipTask.dependsOn(project_generateModuleOwnership)
+                                }
+                        }
+                    }
+                }
+
+
+                target.tasks.register(
+                    "validateVcsOwnershipFiles",
+                    ValidateVcsOwnershipFilesTask::class.java
+                ) { task ->
+                    task.ownershipExtension = ownershipExtension
+                }.configure { rootGenerateOwnershipTask ->
+                    rootGenerateOwnershipTask.dependsOn(generateOwnership)
                 }
             }
 

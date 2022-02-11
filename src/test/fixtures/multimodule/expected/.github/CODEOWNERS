@@ -8,7 +8,9 @@
 # Custom configurations
 *.js	@js-owner
 *.go	docs@example.com
+
 # one/OWNERSHIP.toml
 one/	secretUserOne
+
 # two/OWNERSHIP.toml
 two/	secretUserTwo
