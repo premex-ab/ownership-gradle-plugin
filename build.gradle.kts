@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.gradle:gradle-tooling-api:7.4")
+    implementation(gradleApi())
     implementation("org.tomlj:tomlj:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
