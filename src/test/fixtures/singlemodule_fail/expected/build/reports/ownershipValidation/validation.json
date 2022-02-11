@@ -1,7 +1,8 @@
 {
   "configurations": [
     {
-      "configuration": {},
+      "configuration": {
+      },
       "path": "OWNERSHIP.toml"
     }
   ],

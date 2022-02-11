@@ -8,7 +8,6 @@
       "path": "two/OWNERSHIP.toml",
       "configuration": {
         "owner": {
-          "group": "secretGroupTwo",
           "user": "secretUserTwo"
         },
         "version": 1
