@@ -36,15 +36,11 @@ Outputs from validation is available in `build/reports/ownershipValidation/`
 
 ### Sample OWNERSHIP.toml file
 
-```toml
-# version is always required 
+```toml 
 version = 1
 
 [owner]
 user = "secretUser"
-users = ["secretUser", "anotherUser"]
-group = "secretGroup"
-groups = [ "secretGroup", "anotherGroup" ]
 ```
 
 ## Coming Soon!
@@ -53,7 +49,7 @@ Here are some ideas that we are thinking about. We are also not limited to these
 use cases.
 
 - [x] Support for verifying codeownership files is in place
-- [ ] Better rules for validating content in ownership files
+- [x] Better rules for validating content in ownership files
 - [x] Support for having codeownership files anywhere in the code and not only in a projects root
 - [x] Generate GitHub & Bitbucket codeownership files based on the toml files
 - [ ] Generate html reports of code ownerships and code health 
