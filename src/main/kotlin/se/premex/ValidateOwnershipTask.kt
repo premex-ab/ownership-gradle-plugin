@@ -39,7 +39,7 @@ open class ValidateOwnershipTask : DefaultTask() {
             }
 
     @InputFiles
-    val moduleOwnershipFile = project.rootProject.file("OWNERSHIP.toml")
+    val moduleOwnershipFile = project.file("OWNERSHIP.toml")
 
     @OutputFile
     val resultFile: File = project.file("build/reports/ownershipValidation/validation.json")
