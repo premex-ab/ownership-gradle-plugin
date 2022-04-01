@@ -19,6 +19,9 @@ class OwnershipPlugin : Plugin<Project> {
                 ValidateOwnershipTask::class.java
             ) { task ->
                 task.ownershipExtension = ownershipExtension
+
+                task.group = "Ownership"
+                task.description = "Validate the content in OWNERSHIP.toml configuration files"
             }
 
             if (target == target.rootProject) {
@@ -27,6 +30,8 @@ class OwnershipPlugin : Plugin<Project> {
                     GenerateOwnershipTask::class.java
                 ) { task ->
                     task.ownershipExtension = ownershipExtension
+                    task.group = "Ownership"
+                    task.description = "Generates the supported and configured VCS OWNERSHIP files"
                 }.configure {
                     it.dependsOn(validateOwnershipTask)
                 }
