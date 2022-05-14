@@ -29,7 +29,8 @@ class FixtureTaskTest {
             |---------------
             |generateOwnership - Generates the supported and configured VCS OWNERSHIP files
             |validateOwnership - Validate the content in OWNERSHIP.toml configuration files
-            |""".trimMargin()
+            |
+            """.trimMargin()
         )
     }
 
