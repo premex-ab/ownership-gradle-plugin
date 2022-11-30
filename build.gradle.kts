@@ -90,3 +90,8 @@ pluginBundle {
         }
     }
 }
+allprojects {
+    tasks.withType<ValidatePlugins>().configureEach {
+        enableStricterValidation.set(true)
+    }
+}

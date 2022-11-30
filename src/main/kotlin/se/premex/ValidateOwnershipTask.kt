@@ -8,9 +8,13 @@ import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.api.file.FileCollection
 import org.gradle.api.logging.LogLevel
+import org.gradle.api.tasks.CacheableTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import se.premex.toml.OwnershipFile
 import java.io.File
@@ -19,27 +23,29 @@ const val FAILED_RULE_EXCEPTION_MESSAGE = "Error occurred when validating rules 
 const val FAILED_PARSING_TOML_FILE_MESSAGE = "Failure parsing OWNERSHIP.toml file"
 const val MISSING_TOML_FILE_MESSAGE = "Missing codeownership file from module"
 
+@CacheableTask
 open class ValidateOwnershipTask : DefaultTask() {
 
+    @PathSensitive(PathSensitivity.RELATIVE)
     @InputFiles
-    val ownershipFiles: FileCollection =
-        project
-            .fileTree(
-                project.projectDir
-            ) { files: ConfigurableFileTree ->
-                val filter = files.include("**/OWNERSHIP.toml")
-                    .exclude("build/**")
-                    .exclude("**/.github/**")
-                    .exclude("**/.bitbucket/**")
-                val projectRootDir = project.rootDir
-                project.subprojects.forEach {
-                    val relativeProjectDir = File(it.projectDir.path).relativeTo(projectRootDir)
-                    filter.exclude("$relativeProjectDir/*")
-                }
-            }
+    val ownershipFiles: FileCollection = project.fileTree(
+        project.projectDir
+    ) { files: ConfigurableFileTree ->
+        val filter = files.include("**/OWNERSHIP.toml").exclude("build/**").exclude("**/.github/**")
+            .exclude("**/.bitbucket/**")
 
+        project.subprojects.forEach {
+            val relativeProjectDir = File(it.projectDir.path).relativeTo(project.rootDir)
+            filter.exclude("$relativeProjectDir/*")
+        }
+    }
+
+    @PathSensitive(PathSensitivity.RELATIVE)
     @InputFiles
     val moduleOwnershipFile = project.file("OWNERSHIP.toml")
+
+    @Input
+    val projectRootDir = project.rootDir.path
 
     @OutputFile
     val resultFile: File = project.file("build/reports/ownershipValidation/validation.json")
@@ -79,10 +85,8 @@ open class ValidateOwnershipTask : DefaultTask() {
                 if (ownershipExtension.generateMissingOwnershipFiles) {
                     moduleOwnershipFile.createNewFile()
                     moduleOwnershipFile.writeText(
-                        "version = 1\n" +
-                            "\n" +
-                            "[owner]\n" +
-                            "user = \"" + ownershipExtension.defaultOwnerForMissingOwnershipFiles + "\""
+                        "version = 1\n" + "\n" + "[owner]\n" + "user = \"" +
+                            ownershipExtension.defaultOwnerForMissingOwnershipFiles + "\""
                     )
                 } else {
                     throw GradleException(MISSING_TOML_FILE_MESSAGE + " " + moduleOwnershipFile.path)
@@ -90,7 +94,7 @@ open class ValidateOwnershipTask : DefaultTask() {
             }
 
             val validationResults = ownershipFiles.sorted().map { ownershipFile ->
-                val path = ownershipFile.relativeTo(project.rootDir).path
+                val path = ownershipFile.relativeTo(File(projectRootDir)).path
 
                 val parsedOwnershipFile = TomlParser.parseFile(ownershipFile)
 
@@ -128,8 +132,7 @@ open class ValidateOwnershipTask : DefaultTask() {
                 throw GradleException(FAILED_PARSING_TOML_FILE_MESSAGE)
             }
 
-            val failedRules = validationResults
-                .mapNotNull { it.ownershipValidationResult?.results }
+            val failedRules = validationResults.mapNotNull { it.ownershipValidationResult?.results }
                 .flatMap { it -> it.filter { !it.second } }
 
             if (failedRules.isNotEmpty()) {

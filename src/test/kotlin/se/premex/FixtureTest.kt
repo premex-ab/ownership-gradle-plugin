@@ -33,7 +33,12 @@ class FixtureTest {
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
             .withPluginClasspath()
-            .withArguments("validateOwnership", "generateOwnership", "--stacktrace")
+            .withArguments(
+                "validateOwnership",
+                "generateOwnership",
+                "--stacktrace",
+                // "--configuration-cache"
+            )
             .forwardOutput()
             .build()
 
@@ -56,8 +61,9 @@ class FixtureTest {
                 "clean",
                 "validateOwnership",
                 "generateOwnership",
+                // "--configuration-cache",
                 "--stacktrace",
-                "--continue"
+                "--continue",
             )
             .withPluginClasspath()
             .forwardOutput()

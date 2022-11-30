@@ -3,15 +3,21 @@ package se.premex
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.CacheableTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import se.premex.toml.OwnershipFileResult
 import java.io.File
 
+@CacheableTask
 open class GenerateOwnershipTask : DefaultTask() {
 
+    @PathSensitive(PathSensitivity.RELATIVE)
     @InputFiles
     val ownershipFiles: FileCollection =
         project
@@ -23,6 +29,9 @@ open class GenerateOwnershipTask : DefaultTask() {
                     .exclude("**/.github/**")
                     .exclude("**/.bitbucket/**")
             }
+
+    @Input
+    val projectRootDir = project.rootDir.path
 
     @OutputFile
     val gitownershipFile = project.file("build/generated/ownershipValidation/gitownership")
@@ -38,7 +47,8 @@ open class GenerateOwnershipTask : DefaultTask() {
         clearFiles()
 
         ownershipFiles.sorted().forEach { ownershipFile ->
-            var path = ownershipFile.relativeTo(project.rootProject.rootDir).path.replace("OWNERSHIP.toml", "")
+
+            var path = ownershipFile.relativeTo(File(projectRootDir)).path.replace("OWNERSHIP.toml", "")
             appendComment(path + "OWNERSHIP.toml")
             if (path == "") {
                 path = "*"
@@ -59,14 +69,14 @@ open class GenerateOwnershipTask : DefaultTask() {
             }
         }
         if (ownershipExtension.generateGithubOwners) {
-            val target = File(project.rootProject.rootDir.path + "/.github/CODEOWNERS")
+            val target = File("$projectRootDir/.github/CODEOWNERS")
             if (target.exists()) {
                 target.delete()
             }
             gitownershipFile.copyTo(target)
         }
         if (ownershipExtension.generateBitbucketOwners) {
-            val target = File(project.rootProject.rootDir.path + "/.bitbucket/CODEOWNERS")
+            val target = File("$projectRootDir/.bitbucket/CODEOWNERS")
             if (target.exists()) {
                 target.delete()
             }
