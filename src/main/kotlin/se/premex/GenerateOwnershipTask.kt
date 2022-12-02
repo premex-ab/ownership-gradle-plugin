@@ -31,7 +31,10 @@ open class GenerateOwnershipTask : DefaultTask() {
             }
 
     @Input
-    val projectRootDir = project.rootDir.path
+    val moduleRootDir = project.rootDir.path
+
+    @Input
+    val projectRootDir = project.rootProject.rootDir.path
 
     @OutputFile
     val gitownershipFile = project.file("build/generated/ownershipValidation/gitownership")
