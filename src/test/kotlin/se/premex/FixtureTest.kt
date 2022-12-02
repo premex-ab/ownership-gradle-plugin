@@ -24,9 +24,9 @@ class FixtureTest {
     fun testFixtures(input: String) {
         val fixtureDir = File(fixturesDir, input)
 
-        if (File(fixtureDir.path + "/build").exists()) {
-            File(fixtureDir.path + "/build").deleteRecursively()
-        }
+//        if (File(fixtureDir.path + "/build").exists()) {
+//            File(fixtureDir.path + "/build").deleteRecursively()
+//        }
         createRunner(fixtureDir).build()
 
         assertExpectedFiles(fixtureDir)
