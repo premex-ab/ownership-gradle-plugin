@@ -24,6 +24,9 @@ class FixtureTest {
     fun testFixtures(input: String) {
         val fixtureDir = File(fixturesDir, input)
 
+        if (File(fixtureDir.path + "/build").exists()) {
+            File(fixtureDir.path + "/build").deleteRecursively()
+        }
         createRunner(fixtureDir).build()
 
         assertExpectedFiles(fixtureDir)
@@ -37,7 +40,7 @@ class FixtureTest {
                 "validateOwnership",
                 "generateOwnership",
                 "--stacktrace",
-                // "--configuration-cache"
+                "--configuration-cache"
             )
             .forwardOutput()
             .build()
@@ -58,10 +61,10 @@ class FixtureTest {
             .withProjectDir(fixtureDir)
             .withDebug(true) // Run in-process
             .withArguments(
-                "clean",
+                // "clean",
                 "validateOwnership",
                 "generateOwnership",
-                // "--configuration-cache",
+                "--configuration-cache",
                 "--stacktrace",
                 "--continue",
             )
