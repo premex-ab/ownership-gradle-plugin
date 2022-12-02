@@ -12,7 +12,6 @@ object TomlParser {
     private val mapper: ObjectMapper = TomlMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
 
     internal fun parseFile(tomlFile: File): OwnershipFileResult {
-
         @Suppress("TooGenericExceptionCaught")
         val parsedOwnershipFile: OwnershipFileResult = try {
             OwnershipFileResult(
@@ -30,7 +29,6 @@ object TomlParser {
     }
 
     fun parseString(toml: String): OwnershipFileResult {
-
         @Suppress("TooGenericExceptionCaught")
         val parsedOwnershipFile: OwnershipFileResult = try {
             OwnershipFileResult(

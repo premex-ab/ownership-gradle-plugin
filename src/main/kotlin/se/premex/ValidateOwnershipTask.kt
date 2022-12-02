@@ -80,7 +80,6 @@ open class ValidateOwnershipTask : DefaultTask() {
             )
             resultFile.writeText(json)
         } else {
-
             val errors = mutableListOf<String>()
             val configurations = mutableListOf<Configuration>()
 
