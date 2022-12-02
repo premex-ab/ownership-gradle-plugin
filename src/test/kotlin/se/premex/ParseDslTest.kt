@@ -22,7 +22,6 @@ internal class ParseDslTest {
 
     @Test
     fun `verify that dsl can be properly parsed`() {
-
         buildFile.writeText(
             """
             apply plugin: "java"
