@@ -47,6 +47,9 @@ open class ValidateOwnershipTask : DefaultTask() {
     @Input
     val projectRootDir = project.rootDir.path
 
+    @Input
+    val projectPath = project.path
+
     @OutputFile
     val resultFile: File = project.file("build/reports/ownershipValidation/validation.json")
 
@@ -68,7 +71,7 @@ open class ValidateOwnershipTask : DefaultTask() {
         if (!ownershipExtension.validateOwnership) {
             val json = jsonParser.encodeToString(
                 ValidationResultData(
-                    projectPath = project.path,
+                    projectPath = projectPath,
                     ownershipVerificationEnabled = false,
                     valid = true,
                     errors = listOf(),
@@ -115,7 +118,7 @@ open class ValidateOwnershipTask : DefaultTask() {
 
             val json = jsonParser.encodeToString(
                 ValidationResultData(
-                    projectPath = project.path,
+                    projectPath = projectPath,
                     ownershipVerificationEnabled = true,
                     valid = errors.isEmpty(),
                     errors = errors,
