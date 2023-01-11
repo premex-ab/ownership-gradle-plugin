@@ -50,7 +50,7 @@ dependencies {
 
     testImplementation("net.javacrumbs.json-unit:json-unit-assertj:2.36.0")
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
 }
