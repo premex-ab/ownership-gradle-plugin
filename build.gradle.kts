@@ -40,7 +40,7 @@ dependencies {
     implementation(gradleApi())
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.14.1")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 
     testImplementation(gradleTestKit())
     testImplementation("com.google.truth:truth:1.1.3")
