@@ -43,7 +43,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
     testImplementation(gradleTestKit())
-    testImplementation("com.google.truth:truth:1.1.4")
+    testImplementation("com.google.truth:truth:1.1.5")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
