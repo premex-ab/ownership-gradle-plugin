@@ -48,7 +48,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
 
-    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:2.38.0")
+    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:3.0.0")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.3")
 
