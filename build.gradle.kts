@@ -45,8 +45,8 @@ dependencies {
     testImplementation(gradleTestKit())
     testImplementation("com.google.truth:truth:1.1.4")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
 
     testImplementation("net.javacrumbs.json-unit:json-unit-assertj:2.38.0")
 
