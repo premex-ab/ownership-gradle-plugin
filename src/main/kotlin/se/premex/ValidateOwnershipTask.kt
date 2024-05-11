@@ -135,7 +135,7 @@ open class ValidateOwnershipTask : DefaultTask() {
             }
 
             val failedRules = validationResults.mapNotNull { it.ownershipValidationResult?.results }
-                .flatMap { it -> it.filter { !it.second } }
+                .flatMap { it.filter { !it.second } }
 
             if (failedRules.isNotEmpty()) {
                 failedRules.forEach { logger.log(LogLevel.LIFECYCLE, it.first.toString()) }
