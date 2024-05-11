@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.21"
     // https://plugins.gradle.org/docs/publish-plugin
-    id("com.gradle.plugin-publish") version "0.21.0"
+    id("com.gradle.plugin-publish") version "1.2.1"
     id("java-gradle-plugin")
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
     kotlin("plugin.serialization") version "2.1.21"
