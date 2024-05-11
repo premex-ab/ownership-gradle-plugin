@@ -3,7 +3,7 @@ plugins {
     // https://plugins.gradle.org/docs/publish-plugin
     id("com.gradle.plugin-publish") version "0.21.0"
     id("java-gradle-plugin")
-    id("io.gitlab.arturbosch.detekt") version "1.20.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.6"
     kotlin("plugin.serialization") version "1.9.24"
     id("com.gladed.androidgitversion") version "0.4.14"
     id("maven-publish")
@@ -52,7 +52,7 @@ dependencies {
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
 }
 
 tasks.withType<Test> {
