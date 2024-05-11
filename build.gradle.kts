@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.7.20"
+    kotlin("jvm") version "1.9.24"
     // https://plugins.gradle.org/docs/publish-plugin
     id("com.gradle.plugin-publish") version "0.21.0"
     id("java-gradle-plugin")
