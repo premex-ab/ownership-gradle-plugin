@@ -63,23 +63,18 @@ version = androidGitVersion.name().replace("v", "")
 group = "se.premex"
 
 gradlePlugin {
+
+    website = "https://github.com/premex-ab/ownership-gradle-plugin"
+    vcsUrl = "https://github.com/premex-ab/ownership-gradle-plugin.git"
+    description = "A plugin that verifies that ownership files are created in the projects"
+
     plugins {
         create("ownership") {
             id = "se.premex.ownership"
             implementationClass = "se.premex.OwnershipPlugin"
-        }
-    }
-}
 
-pluginBundle {
-    website = "https://github.com/premex-ab/ownership-gradle-plugin"
-    vcsUrl = "https://github.com/premex-ab/ownership-gradle-plugin.git"
-    description = "A plugin that verifies that ownership files are created in the projects"
-    tags = mutableListOf("tooling", "ownership", "premex")
-
-    (plugins) {
-        "ownership" {
-            displayName = "Verify ownership files are in place in subproject and have required information"
+            displayName =
+                "Verify ownership files are in place in subproject and have required information"
             description =
                 """Check for existence of OWNERSHIP.toml in subprojects and verify that it contains ownership information. It will validate the syntax in the file against the toml specification
                     |
@@ -87,9 +82,11 @@ pluginBundle {
                     |
                     |Attaches to the check task to perform validation on OWNERSHIP.toml files. 
             """.trimMargin()
+
         }
     }
 }
+
 allprojects {
     tasks.withType<ValidatePlugins>().configureEach {
         enableStricterValidation.set(true)
