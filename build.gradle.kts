@@ -4,7 +4,7 @@ plugins {
     id("com.gradle.plugin-publish") version "0.21.0"
     id("java-gradle-plugin")
     id("io.gitlab.arturbosch.detekt") version "1.23.6"
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("plugin.serialization") version "2.0.10"
     id("com.gladed.androidgitversion") version "0.4.14"
     id("maven-publish")
 }
