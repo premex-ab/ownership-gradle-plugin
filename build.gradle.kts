@@ -3,7 +3,7 @@ plugins {
     // https://plugins.gradle.org/docs/publish-plugin
     id("com.gradle.plugin-publish") version "0.21.0"
     id("java-gradle-plugin")
-    id("io.gitlab.arturbosch.detekt") version "1.23.7"
+    id("io.gitlab.arturbosch.detekt") version "1.23.8"
     kotlin("plugin.serialization") version "2.1.10"
     id("com.gladed.androidgitversion") version "0.4.14"
     id("maven-publish")
