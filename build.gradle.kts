@@ -44,7 +44,7 @@ dependencies {
 
     testImplementation(gradleTestKit())
     testImplementation("com.google.truth:truth:1.4.4")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.1")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.4")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.4")
 
