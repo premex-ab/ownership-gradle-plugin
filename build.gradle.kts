@@ -38,7 +38,7 @@ repositories {
 
 dependencies {
     implementation(gradleApi())
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.20.0")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.20.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
