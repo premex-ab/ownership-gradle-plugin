@@ -19,14 +19,9 @@ detekt {
     buildUponDefaultConfig = true
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 kotlin {
-    target.compilations.all {
-        compileKotlinTask.kotlinOptions.jvmTarget = "1.8"
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
 
