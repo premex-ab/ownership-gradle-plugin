@@ -28,6 +28,9 @@ jobs:
       - name: Run verifications
         run: ./gradlew check
 
+      - name: Run verifications
+        run: ./gradlew validatePlugins
+
       - name: Upload reports
         uses: actions/upload-artifact@v5
         if: failure()
