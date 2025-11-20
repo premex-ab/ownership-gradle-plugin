@@ -46,6 +46,7 @@ open class GenerateOwnershipTask : DefaultTask() {
     lateinit var ownershipExtension: OwnershipExtension
 
     @TaskAction
+    @Suppress("ThrowsCount")
     fun validationTask() {
         clearFiles()
 
@@ -61,9 +62,26 @@ open class GenerateOwnershipTask : DefaultTask() {
 
             val parsedOwnershipFile: OwnershipFileResult = TomlParser.parseFile(ownershipFile)
 
-            appendLine(path + "\t" + parsedOwnershipFile.ownershipFile?.owner?.user!!)
+            // Check if parsing failed
+            if (parsedOwnershipFile.exception != null) {
+                throw parsedOwnershipFile.exception
+            }
 
-            val owners: List<List<String>> = parsedOwnershipFile.ownershipFile.custom?.owners ?: listOf()
+            // Check if required fields are present
+            val ownershipData = parsedOwnershipFile.ownershipFile
+                ?: error("Failed to parse ownership file: $ownershipFile")
+
+            val owner = ownershipData.owner
+                ?: error("Missing [owner] section in ownership file: $ownershipFile")
+
+            val user = owner.user
+                ?: error(
+                    "Missing 'user' field in [owner] section of ownership file: $ownershipFile"
+                )
+
+            appendLine(path + "\t" + user)
+
+            val owners: List<List<String>> = ownershipData.custom?.owners ?: listOf()
             if (owners.isNotEmpty()) {
                 appendComment("Custom configurations")
             }
