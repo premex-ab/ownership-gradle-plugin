@@ -75,6 +75,7 @@ gradlePlugin {
                     |Attaches to the check task to perform validation on OWNERSHIP.toml files. 
             """.trimMargin()
 
+            tags.set(listOf("ownership", "codeowners", "governance", "quality"))
         }
     }
 }
