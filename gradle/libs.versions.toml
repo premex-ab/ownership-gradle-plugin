@@ -6,7 +6,7 @@ androidgitversion = "0.4.14"
 jackson = "2.20.1"
 kotlinx-serialization = "1.9.0"
 truth = "1.4.5"
-junit = "5.11.4"
+junit = "6.0.1"
 json-unit = "5.1.0"
 
 [libraries]
