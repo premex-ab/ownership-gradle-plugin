@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.1.21"
-gradle-plugin-publish = "1.2.1"
+gradle-plugin-publish = "2.0.0"
 detekt = "1.23.8"
 androidgitversion = "0.4.14"
 jackson = "2.20.1"
