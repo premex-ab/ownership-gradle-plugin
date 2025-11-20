@@ -25,7 +25,7 @@ class OwnershipPlugin : Plugin<Project> {
             }
 
             if (target == target.rootProject) {
-                target.tasks.register(
+                val generateOwnershipTask = target.tasks.register(
                     "generateOwnership",
                     GenerateOwnershipTask::class.java
                 ) { task ->
@@ -34,6 +34,18 @@ class OwnershipPlugin : Plugin<Project> {
                     task.description = "Generates the supported and configured VCS OWNERSHIP files"
                 }.configure {
                     it.dependsOn(validateOwnershipTask)
+                }
+
+                target.tasks.register("ownership") { task ->
+                    task.group = "Ownership"
+                    task.description = "Validates OWNERSHIP.toml files and generates VCS OWNERSHIP files"
+                    task.dependsOn(generateOwnershipTask)
+                }
+            } else {
+                target.tasks.register("ownership") { task ->
+                    task.group = "Ownership"
+                    task.description = "Validates OWNERSHIP.toml files"
+                    task.dependsOn(validateOwnershipTask)
                 }
             }
 
