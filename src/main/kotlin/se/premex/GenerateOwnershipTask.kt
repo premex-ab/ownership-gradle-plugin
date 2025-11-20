@@ -51,7 +51,9 @@ open class GenerateOwnershipTask : DefaultTask() {
 
         ownershipFiles.sorted().forEach { ownershipFile ->
 
-            var path = ownershipFile.relativeTo(File(projectRootDir)).path.replace("OWNERSHIP.toml", "")
+            var path = ownershipFile.relativeTo(
+                File(projectRootDir)
+            ).path.replace("\\", "/").replace("OWNERSHIP.toml", "")
             appendComment(path + "OWNERSHIP.toml")
             if (path == "") {
                 path = "*"
