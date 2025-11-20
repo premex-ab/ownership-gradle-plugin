@@ -19,6 +19,13 @@ ownership {
 }
 ```
 
+##### Validate and generate ownership files (combined):
+
+```shell script
+./gradlew ownership
+```
+This combined task validates OWNERSHIP.toml files and generates VCS CODEOWNERS files (both validation and generation in a single command).
+
 ##### Verify ownership files is in place:
 
 ```shell script
