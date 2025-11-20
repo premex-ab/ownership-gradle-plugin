@@ -20,11 +20,8 @@ detekt {
 }
 
 kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
+    jvmToolchain(17)
 }
-
 
 repositories {
     maven { url = uri("https://repo.gradle.org/gradle/libs-releases") }
