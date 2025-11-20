@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "2.1.21"
+    alias(libs.plugins.kotlin.jvm)
     // https://plugins.gradle.org/docs/publish-plugin
-    id("com.gradle.plugin-publish") version "1.2.1"
+    alias(libs.plugins.gradle.plugin.publish)
     id("java-gradle-plugin")
-    id("io.gitlab.arturbosch.detekt") version "1.23.8"
-    kotlin("plugin.serialization") version "2.1.21"
-    id("com.gladed.androidgitversion") version "0.4.14"
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.androidgitversion)
     id("maven-publish")
 }
 
@@ -33,21 +33,21 @@ repositories {
 
 dependencies {
     implementation(gradleApi())
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.20.1")
+    implementation(libs.jackson.dataformat.toml)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(gradleTestKit())
-    testImplementation("com.google.truth:truth:1.4.5")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.4")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.4")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.4")
+    testImplementation(libs.truth)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
+    testImplementation(libs.junit.jupiter.params)
 
-    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:2.38.0")
+    testImplementation(libs.json.unit.assertj)
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.4")
+    testRuntimeOnly(libs.junit.jupiter.engine)
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
+    detektPlugins(libs.detekt.formatting)
 }
 
 tasks.withType<Test> {
