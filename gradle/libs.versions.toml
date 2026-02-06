@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 gradle-plugin-publish = "2.0.0"
 detekt = "1.23.8"
 androidgitversion = "0.4.14"
