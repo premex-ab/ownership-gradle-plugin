@@ -43,6 +43,7 @@ dependencies {
     testImplementation(libs.json.unit.assertj)
 
     testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
 
     detektPlugins(libs.detekt.formatting)
 }
