@@ -8,7 +8,7 @@ kotlinx-serialization = "1.11.0"
 truth = "1.4.5"
 junit = "5.14.4"
 junit-platform = "6.1.0"
-json-unit = "5.1.1"
+json-unit = "5.1.2"
 
 [libraries]
 jackson-dataformat-toml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-toml", version.ref = "jackson" }
