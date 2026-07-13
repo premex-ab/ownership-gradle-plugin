@@ -7,7 +7,7 @@ jackson = "2.22.1"
 kotlinx-serialization = "1.11.0"
 truth = "1.4.5"
 junit = "5.14.4"
-junit-platform = "6.1.1"
+junit-platform = "6.1.2"
 json-unit = "6.0.1"
 
 [libraries]
